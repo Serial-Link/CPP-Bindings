@@ -13,7 +13,7 @@ env:
 
 jobs:    
   build_linux:
-    name: Build linux binaries
+    name: Build Ubuntu-latest binaries
     runs-on: ubuntu-latest
     
     steps:
@@ -50,27 +50,27 @@ jobs:
         name: windows-binary
         path: ${{github.workspace}}\build\Release\Serial_cpp.dll
         
-  commit:
-    needs: [build_windows, build_linux]
-    name: Commit binaries
-    runs-on: ubuntu-latest
+  # commit:
+  #   needs: [build_windows, build_linux]
+  #   name: Commit binaries
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
-          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+  #         fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
     
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          path: ${{github.workspace}}/tmp
+  #     - name: Download artifact
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         path: ${{github.workspace}}/tmp
           
-      - name: Create bin folder if it does not exist
-        run: mkdir -p ${{github.workspace}}/bin
+  #     - name: Create bin folder if it does not exist
+  #       run: mkdir -p ${{github.workspace}}/bin
         
-      - name: Move and rename linux binary
-        run: mv ${{github.workspace}}/tmp/linux-binary/* ${{github.workspace}}/bin/
+  #     - name: Move and rename linux binary
+  #       run: mv ${{github.workspace}}/tmp/linux-binary/* ${{github.workspace}}/bin/
         
-      - name: Move and rename windows binary
-        run: mv ${{github.workspace}}/tmp/windows-binary/Serial_cpp.dll ${{github.workspace}}/bin/windows.dll    
+  #     - name: Move and rename windows binary
+  #       run: mv ${{github.workspace}}/tmp/windows-binary/Serial_cpp.dll ${{github.workspace}}/bin/windows.dll    
